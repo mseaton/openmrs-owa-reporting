@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "name": "Reporting",
+  "description": "User interface for running reports",
+  "launch_path": "index.html",
+  "icons": {
+    "48": "/img/omrs-button.png"
+  },
+  "developer": {
+    "name": "mseaton",
+    "url": "https://github.com/mseaton/openmrs-owa-reporting"
+  },
+  "default_locale": "en",
+    "activities": {
+      "openmrs": {
+        "href": "*"
+      }
+    }
+}
