@@ -1,6 +1,7 @@
 import React from 'react';
 
 import logoSmall from '../../img/openmrs-with-title-small.png';
+import AppService from '../services/AppService';
 
 /**
  * TODO:  Implement population of currently logged in user and session location
@@ -18,13 +19,32 @@ function HeaderLogo(props) {
     );
 }
 
-function UserLink(props) {
-    return (
-        <li className="identifier">
-            <i className="icon-user small"></i>
-            Username
-        </li>
-    );
+class CurrentUserLink extends React.Component {
+
+    constructor() {
+        super();
+        this.state = {
+            user: undefined
+        };
+    }
+
+    componentDidMount() {
+        var self = this;
+        AppService.getSession().then((session) => {
+            self.setState({
+                user: session.user.display
+            })
+        });
+    }
+
+    render() {
+        return (
+            <li className="identifier">
+                <i className="icon-user small"></i>
+                {this.state.user}
+            </li>
+        );
+    }
 }
 
 function LocationLink(props) {
@@ -39,7 +59,7 @@ function LocationLink(props) {
 function LogoutLink(props) {
     return (
         <li className="logout">
-            <a href="/openmrs/appui/header/logout.action?successUrl=openmrs">
+            <a href="#" onClick={(evt) => AppService.logout()}>
                 Logout
                 <i className="icon-signout small"></i>
             </a>
@@ -53,7 +73,7 @@ export default class Header extends React.Component {
             <header>
                 <HeaderLogo/>
                 <ul className="user-options">
-                    <UserLink />
+                    <CurrentUserLink />
                     <LocationLink />
                     <LogoutLink />
                 </ul>

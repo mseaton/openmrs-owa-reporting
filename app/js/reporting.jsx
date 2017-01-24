@@ -17,5 +17,5 @@ import Header from './components/Header'
 
 render(
     (<Header />),
-    document.getElementById('querybuilder')
+    document.getElementById('reporting-app')
 );
