@@ -108,7 +108,8 @@ var webpackConfig = {
 	  vendor: [
 	      'openmrs-contrib-uicommons',
           'react',
-          'react-dom'
+          'react-dom',
+          'react-addons-update'
     ]
   },
   devtool: devtool,

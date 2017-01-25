@@ -28,6 +28,10 @@ class CurrentUserLink extends React.Component {
         };
     }
 
+    componentWillMount() {
+        AppService.redirectIfNotLoggedIn();
+    }
+
     componentDidMount() {
         var self = this;
         AppService.getSession().then((session) => {
@@ -47,13 +51,32 @@ class CurrentUserLink extends React.Component {
     }
 }
 
-function LocationLink(props) {
-    return (
-        <li className="change-location">
-            <i className="icon-map-marker small"></i>
-            Location
-        </li>
-    );
+class SessionLocationLink extends React.Component {
+
+    constructor() {
+        super();
+        this.state = {
+            location: undefined
+        };
+    }
+
+    componentDidMount() {
+        var self = this;
+        AppService.getSession().then((session) => {
+            self.setState({
+                location: session.sessionLocation
+            })
+        });
+    }
+
+    render() {
+        return (
+            <li className="change-location">
+                <i className="icon-map-marker small"></i>
+                {this.state.location}
+            </li>
+        );
+    }
 }
 
 function LogoutLink(props) {
@@ -74,7 +97,7 @@ export default class Header extends React.Component {
                 <HeaderLogo/>
                 <ul className="user-options">
                     <CurrentUserLink />
-                    <LocationLink />
+                    <SessionLocationLink />
                     <LogoutLink />
                 </ul>
             </header>

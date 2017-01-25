@@ -9,7 +9,8 @@
   "dependencies": {
     "openmrs-contrib-uicommons": "^0.3.29",
     "react": "^15.4.1",
-    "react-dom": "^15.4.1"
+    "react-dom": "^15.4.1",
+    "react-addons-update": "15.4.1"
   },
   "devDependencies": {
     "archiver": "^1.0.0",
