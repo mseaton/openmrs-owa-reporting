@@ -8,24 +8,36 @@ import {render} from 'react-dom';
 import RestService from './RestService'
 
 const SessionResourcePath = '/ws/rest/v1/session';
+const AppUiSessionResourcePath = '/ws/rest/v1/appui/session'
 
 class AppService {
 
     getSession() {
-        var promise = RestService.get(SessionResourcePath).then((response) => {
-            if (response.status >= 200 && response.status < 300) {
-                return response.json();
+
+        // First try to get session data from appui session resource, fall back to default session resource
+
+        var promise = RestService.get(AppUiSessionResourcePath).then((appuiResponse) => {
+            if (appuiResponse.status >= 200 && appuiResponse.status < 300) {
+                return appuiResponse.json();
             }
             else {
-                throw new Error(response.statusText);
+                return RestService.get(SessionResourcePath).then((sessionResponse) => {
+                    if (sessionResponse.status >= 200 && sessionResponse.status < 300) {
+                        return sessionResponse.json();
+                    }
+                    else {
+                        throw new Error(sessionResponse.statusText);
+                    }
+                });
             }
         }).then((json) => {
             return {
                 authenticated: json.authenticated,
                 user: json.user,
-                sessionLocation: "emrContext.sessionLocationId"
+                location: json.sessionLocation
             }
         });
+
         return promise;
     }
 

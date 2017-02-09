@@ -4,8 +4,7 @@ import logoSmall from '../../img/openmrs-with-title-small.png';
 import AppService from '../services/AppService';
 
 /**
- * TODO:  Implement population of currently logged in user and session location
- * TODO:  Implement correct logout behavior
+ * TODO:  Implement ability to change location or view user profile details
  * TODO:  Localize text
  */
 
@@ -63,19 +62,26 @@ class SessionLocationLink extends React.Component {
     componentDidMount() {
         var self = this;
         AppService.getSession().then((session) => {
-            self.setState({
-                location: session.sessionLocation
-            })
+            if (session.location) {
+                self.setState({
+                    location: session.location.display
+                })
+            }
         });
     }
 
     render() {
-        return (
-            <li className="change-location">
-                <i className="icon-map-marker small"></i>
-                {this.state.location}
-            </li>
-        );
+        if (this.state.location) {
+            return (
+                <li className="change-location">
+                    <i className="icon-map-marker small"></i>
+                    {this.state.location}
+                </li>
+            );
+        }
+        else {
+            return null;
+        }
     }
 }
 
